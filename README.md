@@ -21,7 +21,9 @@ npm i
 Создать файл конфига в папке запуска скрипта (по-умолчанию `deployer.config.json`)
 Прописать параметры:
 - <b>stagedDirName</b> - папка, которая используется для сравнения файлов (по-умолчанию `dist`)
-- <b>command</b> - команда запуска билда на твое усмотрение, например, для маркета `tsc --build tsconfig.deploy.json && babel build -d staged --verbose --copy-files --ignore build/components && copyfiles -u 1 src/**/*.styl staged`
+- <b>command</b> - команда запуска билда на твое усмотрение, например, для маркета:
+`tsc --build tsconfig.deploy.json && babel build -d staged --verbose --copy-files --ignore build/components && copyfiles -u 1 src/**/*.styl staged`,
+где `tsconfig.deploy.json` - это твой необязательный конфиг tsc для деплоя, а `staged` - папка, заданная в `stagedDirName` 
 - <b>deployerCacheName</b> - имя файла кэша (по-умолчанию `.deployerCache.json`)
 - <b>login</b> - логин для ssh-подключения к серверу
 - <b>host</b> - хост для ssh-подключения к серверу
