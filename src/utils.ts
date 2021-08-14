@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 
+export type HashMap = Record<string, string>
+
 export type AnyToAnyT = (...xs: any) => any;
 
 type IType = <T>(x: T) => T
@@ -60,3 +62,14 @@ export const createHashMap: CreateHashMap = parentPath => fs.readdirSync(parentP
             .digest('hex');
         return acc;
     }, {} as Record<string, string>);
+
+type GetHashMapDiff = (hashMapControl: HashMap) => (hashMapActual: HashMap) => HashMap
+export const getHashMapDiff: GetHashMapDiff = hashMapControl => hashMapActual => Object
+    .entries(hashMapActual)
+    .reduce(
+        (acc, [key, value]) => {
+            if (hashMapControl[key] !== value) acc[key] = value;
+            return acc;
+        },
+        {} as HashMap
+    );

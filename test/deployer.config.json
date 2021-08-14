@@ -1,0 +1,7 @@
+{
+  "login": "nybble",
+  "host": "market.logrus01ed.yandex.ru",
+  "port": 22,
+  "remotePath": "/home/nybble",
+  "stagedDirName": "staged"
+}

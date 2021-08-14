@@ -6,7 +6,7 @@ export type RsyncExec = (params: {
     stagedDirName: string,
     login: string,
     host: string,
-    port: string,
+    port: string | number,
     remotePath: string
 }) => Promise<string>
 export const rsyncExec: RsyncExec = ({

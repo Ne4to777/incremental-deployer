@@ -1,36 +1,17 @@
 import {exec} from 'child_process';
 import fs from 'fs';
 
-import type {HashMap} from './types';
 import {rsyncExec} from './rsyncApi';
 import {
-    getProp,
     createHashMap,
-    pipeSync,
     readJSONSync,
     writeJSONSync,
     deleteJSONSync,
+    getHashMapDiff,
 } from './utils';
 
-const getConfig = pipeSync([
-    getProp('config', 'deployer.config.json'),
-    readJSONSync
-]);
-
-const getHashMapDiff = (hashMapControl: HashMap) => (hashMapActual: HashMap) => Object
-    .entries(hashMapActual)
-    .reduce(
-        (acc, [key, value]) => {
-            if (hashMapControl[key] !== value) acc[key] = value;
-            return acc;
-        },
-        {} as HashMap
-    );
-
-
-export default pipeSync([
-    getConfig,
-    ({
+export default ({config: configPath = 'deployer.config.json'}: Record<string, any>): void => {
+    const {
         command = 'echo No command to build',
         stagedDirName = 'dist',
         deployerCacheName = '.deployerCache.json',
@@ -38,7 +19,9 @@ export default pipeSync([
         port = 22,
         host,
         remotePath = '~',
-    }) => exec(command, (error, stdout, stderr) => {
+    } = readJSONSync(configPath)
+
+    exec(command, (error, stdout, stderr) => {
         if (stderr) console.log(stderr);
         if (stdout) console.log(stdout);
         if (error) return console.error(error);
@@ -73,5 +56,5 @@ export default pipeSync([
 
         return rsyncExec({paths, stagedDirName, login, host, port, remotePath})
             .then(() => writeCacheSync(hashMapActual))
-    }),
-]);
+    })
+}
