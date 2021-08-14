@@ -1,0 +1,4 @@
+**/__tests__/*
+**/*.spec.@(js|d.ts|js.map)
+**/*.test.@(js|d.ts|js.map)
+setupTests.@(js|d.ts|js.map)

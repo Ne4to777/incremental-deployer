@@ -1,0 +1,50 @@
+{
+    "root": true,
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "ecmaVersion": 2020
+        },
+        "impliedStrict": true,
+        "ecmaVersion": 2021
+    },
+    "globals": {
+        "window": "readonly",
+        "document": "readonly",
+        "_require": "readonly",
+        "__non_webpack_require__": "readonly"
+    },
+    "overrides": [
+        {
+            "files": ["*.ts"],
+            "parser": "@typescript-eslint/parser",
+            "plugins": ["prettier"],
+            "extends": [
+                "plugin:@typescript-eslint/recommended",
+                "airbnb-base",
+                "airbnb-base/rules/strict",
+                "./node_modules/@yandex-market/codestyle/src/rules/style.js",
+                "./node_modules/@yandex-market/codestyle/src/rules/market.js",
+                "./node_modules/@yandex-market/codestyle/src/rules/typescript.js",
+                "plugin:prettier/recommended"
+            ],
+            "rules": {
+                "no-console": "off",
+                "strict": "off",
+                "no-use-before-define": "off",
+                "implicit-arrow-linebreak": "off",
+                "object-curly-newline": "off",
+                "no-confusing-arrow": "off",
+                "operator-linebreak": "off",
+                "comma-dangle": "off",
+                "quotes": "error",
+                "indent": "error",
+                "prettier/prettier": "off",
+                "@typescript-eslint/indent": "error",
+                "@typescript-eslint/no-explicit-any": "off",
+                "@typescript-eslint/ban-ts-comment": "off",
+                "function-paren-newline":"off"
+            }
+        }
+    ]
+}

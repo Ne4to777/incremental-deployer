@@ -1,0 +1,40 @@
+{
+  "name": "incremental-deployer",
+  "version": "1.0.0",
+  "description": "Incremental Deployer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.yandex-team.ru/nybble/incremental-deployer.git"
+  },
+  "author": "Alexeev Alexey",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "rsync": "^0.6.1",
+    "ts-node": "^10.2.0",
+    "yargs": "^17.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.6.0",
+    "@types/yargs": "^17.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "@yandex-market/codestyle": "^3.3.1",
+    "babel-eslint": "^10.1.0",
+    "concurrently": "^6.2.0",
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-market": "^0.21.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.2",
+    "typescript": "^4.1.3"
+  }
+}
