@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import {hideBin} from 'yargs/helpers';
 
-import run from './run';
+import run from '../run';
 
 const args = yargs(hideBin(process.argv))
     .options({

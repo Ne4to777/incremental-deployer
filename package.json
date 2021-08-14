@@ -2,7 +2,7 @@
   "name": "incremental-deployer",
   "version": "1.0.0",
   "description": "Incremental Deployer",
-  "main": "index.js",
+  "main": "bin/incremental-deployer.js",
   "scripts": {
     "start": "npx ts-node src/index",
     "build": "npm run build:ts && npm run build:files",
