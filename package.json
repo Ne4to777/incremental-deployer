@@ -4,13 +4,22 @@
   "description": "Incremental Deployer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx ts-node src/index",
+    "build": "npm run build:ts && npm run build:files",
+    "build:ts": "npm run remove:dist && npx tsc --build tsconfig.release.json",
+    "build:files": "cp package.json package-lock.json README.md .npmrc .npmignore dist/",
+    "lint": "npx eslint --ext .ts src/",
+    "remove:dist": "rm -rf dist",
+    "prepublish:npm": "npm run lint && npm run build",
+    "publish:npm": "npm publish dist/ --registry='http://npm.yandex-team.ru' --public",
+    "revert": "rm -rf node_modules && rm -rf package-lock.json",
+    "reinstall": "npm run revert && npm i"
   },
   "repository": {
     "type": "git",
     "url": "https://github.yandex-team.ru/nybble/incremental-deployer.git"
   },
-  "author": "Alexeev Alexey",
+  "author": "Alexeev Alexey (@nybble)",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^10.0.0",

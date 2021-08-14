@@ -40,6 +40,9 @@ export const log: Log = x => {
 type GetProp = <O, DefValue>(key: keyof O, def?: DefValue) => (o: O) => O[keyof O] | DefValue | void
 export const getProp: GetProp = (key, def) => o => o[key] || def;
 
+type ExistsSync = (filepath: string) => boolean
+export const existsSync: ExistsSync = filepath => fs.existsSync(filepath);
+
 type ReadJSONSync = (filepath: string) => Record<string, string>
 export const readJSONSync: ReadJSONSync = filepath => JSON.parse(fs.readFileSync(filepath, 'utf-8'));
 
