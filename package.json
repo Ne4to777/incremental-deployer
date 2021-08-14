@@ -1,6 +1,6 @@
 {
   "name": "incremental-deployer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Incremental Deployer",
   "main": "bin/incremental-deployer.js",
   "scripts": {
