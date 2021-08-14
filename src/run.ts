@@ -33,7 +33,7 @@ export default pipeSync([
     ({
         command = 'echo No command to build',
         stagedDirName = 'dist',
-        deployCacheName = '.deployCache.json',
+        deployerCacheName = '.deployerCache.json',
         login,
         port = 22,
         host,
@@ -43,26 +43,26 @@ export default pipeSync([
         if (stdout) console.log(stdout);
         if (error) return console.error(error);
 
-        const writeCacheSync = (data: any) => writeJSONSync(deployCacheName)(data);
+        const writeCacheSync = (data: any) => writeJSONSync(deployerCacheName)(data);
 
-        let ifDeployCacheExists = fs.existsSync(deployCacheName)
+        let ifDeployerCacheExists = fs.existsSync(deployerCacheName)
 
         if (!fs.existsSync(stagedDirName)) {
             fs.mkdirSync(stagedDirName)
-            if (ifDeployCacheExists) {
-                deleteJSONSync(deployCacheName)
-                ifDeployCacheExists = false
+            if (ifDeployerCacheExists) {
+                deleteJSONSync(deployerCacheName)
+                ifDeployerCacheExists = false
             }
         }
 
         const hashMapActual = createHashMap(stagedDirName);
 
-        if (!ifDeployCacheExists) {
+        if (!ifDeployerCacheExists) {
             writeCacheSync(hashMapActual);
             return console.log('Preparation completed! Make changes and run deploy again');
         }
 
-        const hashMapControl = readJSONSync(deployCacheName);
+        const hashMapControl = readJSONSync(deployerCacheName);
 
         const hashMapDiff = getHashMapDiff(hashMapControl)(hashMapActual)
         const paths = Object.keys(hashMapDiff);
