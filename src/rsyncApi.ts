@@ -1,27 +1,31 @@
 // @ts-ignore
 import Rsync from 'rsync';
 
-export type RsyncExec = (params: {
+import {DEFAULT_PORT, DEFAULT_REMOTE_PATH} from './constants';
+
+export type RsyncRemoteExec = (params: {
     paths: string[],
-    stagedDirName: string,
     login: string,
     host: string,
     port: string | number,
-    remotePath: string
+    privateKey?: string,
+    remotePath: string,
+    outDir: string
 }) => Promise<string>
-export const rsyncExec: RsyncExec = ({
+export const rsyncRemoteExec: RsyncRemoteExec = ({
     paths,
-    stagedDirName,
     login,
     host,
-    port,
-    remotePath
+    port = DEFAULT_PORT,
+    privateKey,
+    remotePath = DEFAULT_REMOTE_PATH,
+    outDir
 }) => new Promise((resolve, reject) => Rsync
     .build({
-        source: paths.map(path => path.replace(new RegExp(`^${stagedDirName}/`), '')),
+        source: paths,
         destination: `${login}@${host}:${remotePath}`,
-        shell: `ssh -p ${port}`,
-        cwd: stagedDirName,
+        shell: `ssh ${privateKey ? `-i ${privateKey} `: ''}-p ${port}`,
+        cwd: outDir,
         flags: 'aR',
     })
     .execute((err: any, code: number, cmd: string) => {
@@ -31,13 +35,36 @@ export const rsyncExec: RsyncExec = ({
                     console.error('Connection: bad login, host or port');
                     break;
                 case 23:
-                    console.error('Connection: bad remotePath');
+                    console.error('Connection: bad remotePath or paths to upload');
                     break;
                 default:
                     console.log('Connection: unknown error')
             }
             return reject(err)
         }
-        console.log(cmd);
+        console.log(`Rsync: ${cmd}`);
+        return resolve(cmd)
+    }))
+
+export type RsyncLocalExec = (params: {
+    paths: string[],
+    outDir: string,
+    cwd: string,
+}) => Promise<string>
+
+export const rsyncLocalExec: RsyncLocalExec = ({
+    paths,
+    outDir,
+    cwd,
+}) => new Promise((resolve, reject) => Rsync
+    .build({
+        source: paths,
+        destination: outDir,
+        flags: 'R',
+        cwd
+    })
+    .execute((err: any, code: number, cmd: string) => {
+        if (err) return reject(err)
+        console.log(`Rsync: ${cmd}`);
         return resolve(cmd)
     }))

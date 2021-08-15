@@ -1,16 +1,19 @@
 {
   "name": "incremental-deployer",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Incremental Deployer",
   "main": "bin/incremental-deployer.js",
   "bin": {
     "incremental-deployer": "bin/incremental-deployer.js"
   },
   "scripts": {
-    "start": "npx ts-node src/index",
+    "start": "npx ts-node src/bin/incremental-deployer.ts",
     "build": "npm run build:ts && npm run build:files",
     "build:ts": "npm run remove:dist && npx tsc --build tsconfig.release.json",
     "build:files": "cp package.json package-lock.json README.md .npmrc .npmignore dist/",
+    "example": "cd example && npx ts-node ../src/bin/incremental-deployer.ts",
+    "example:init": "npm run example -- -i",
+    "example:clear": "npm run example -- --clear",
     "lint": "npx eslint --ext .ts src/",
     "remove:dist": "rm -rf dist",
     "prepublish:npm": "npm run lint && npm run build",
@@ -43,6 +46,7 @@
     "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-market": "^0.21.0",
     "eslint-plugin-prettier": "^3.4.0",
     "nodemon": "^2.0.7",

@@ -11,6 +11,16 @@ const args = yargs(hideBin(process.argv))
             alias: 'c',
             describe: 'config file path',
             type: 'string',
+        },
+        init: {
+            alias: 'i',
+            describe: 'init or reinit cache infrastructure',
+            type: 'boolean',
+        },
+        clear: {
+            alias: 'x',
+            describe: 'delete cache infrastructure',
+            type: 'boolean',
         }
     })
     .parseSync();

@@ -16,9 +16,13 @@
     },
     "overrides": [
         {
-            "files": ["*.ts"],
+            "files": [
+                "*.ts"
+            ],
             "parser": "@typescript-eslint/parser",
-            "plugins": ["prettier"],
+            "plugins": [
+                "prettier"
+            ],
             "extends": [
                 "plugin:@typescript-eslint/recommended",
                 "airbnb-base",
@@ -43,7 +47,9 @@
                 "@typescript-eslint/indent": "error",
                 "@typescript-eslint/no-explicit-any": "off",
                 "@typescript-eslint/ban-ts-comment": "off",
-                "function-paren-newline":"off"
+                "function-paren-newline": "off",
+                "consistent-return": "off",
+                "no-await-in-loop": "off"
             }
         }
     ]

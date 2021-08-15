@@ -1,7 +1,27 @@
 {
-  "login": "nybble",
-  "host": "market.logrus01ed.yandex.ru",
-  "port": 22,
-  "remotePath": "/home/nybble",
-  "stagedDirName": "staged"
+    "ssh": {
+        "login": "nybble",
+        "host": "market.logrus01ed.yandex.ru",
+        "port": 22,
+        "remotePath": "/home/nybble/deployer"
+    },
+    "deployerCacheName": ".deployerCache.json",
+    "outDir": "staged",
+    "stages": [
+        [
+            {
+                "outDir": "build",
+                "command": "rsync -r src/js build/",
+                "diffDir": "buildDiff"
+            },
+            {
+                "command": "rsync -r buildDiff/. staged"
+            }
+        ],
+        [
+            {
+                "command": "rsync -r src/css staged/"
+            }
+        ]
+    ]
 }

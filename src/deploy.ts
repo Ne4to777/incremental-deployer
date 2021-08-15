@@ -1,0 +1,64 @@
+import {
+    createHashMap,
+    getHashMapDiff,
+    iterateStages,
+    readJSONSync,
+    writeJSONSync,
+    execCommandSync
+} from './utils';
+import {rsyncLocalExec, rsyncRemoteExec} from './rsyncApi';
+import {DEFAULT_CACHE_FILE, DEFAULT_DEPLOY_DIR} from './constants';
+
+type Deploy = (args: any) => (config: any) => Promise<any>
+export default (() => async ({
+    ssh = {},
+    command: stageCommand,
+    stages = [],
+    outDir: stagedDir = DEFAULT_DEPLOY_DIR,
+    deployerCacheName = DEFAULT_CACHE_FILE
+}) => {
+    const writeCacheSync = writeJSONSync(deployerCacheName);
+    const hashMapControl = readJSONSync(deployerCacheName);
+    const hashMapActual: any = {}
+
+    if (stageCommand) {
+        execCommandSync(stageCommand)
+    } else {
+        await iterateStages(async ({command, outDir = stagedDir, diffDir}) => {
+            execCommandSync(command)
+
+            if (outDir === stagedDir) return
+            hashMapActual[outDir] = createHashMap(outDir);
+
+            if (!diffDir) return
+            const diffPaths = Object.keys(getHashMapDiff(hashMapControl[outDir])(hashMapActual[outDir]))
+
+            if (!diffPaths.length) return
+            const outDirRE = new RegExp(`^${outDir}/`)
+
+            return rsyncLocalExec({
+                paths: diffPaths.map(p => p.replace(outDirRE, '')),
+                outDir: `../${diffDir}/`,
+                cwd: outDir
+            })
+        })(stages)
+    }
+
+    hashMapActual[stagedDir] = createHashMap(stagedDir);
+
+    const pathsToDeploy = Object.keys(getHashMapDiff(hashMapControl[stagedDir])(hashMapActual[stagedDir]))
+
+    if (!pathsToDeploy.length) return console.log('Nothing to deploy');
+
+    console.log('Number of files to be uploaded: ', pathsToDeploy.length);
+
+    const outDirRE = new RegExp(`^${stagedDir}/`)
+    await rsyncRemoteExec({
+        ...ssh,
+        outDir: stagedDir,
+        paths: pathsToDeploy.map(p => p.replace(outDirRE, ''))
+    })
+
+    writeCacheSync(hashMapActual)
+    console.log('"deployment" is done!')
+}) as Deploy

@@ -1,6 +1,9 @@
-import fs from 'fs';
+import fs, {promises, rmdirSync} from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import {execSync} from 'child_process';
+
+import {Stage} from './types';
 
 export type HashMap = Record<string, string>
 
@@ -38,13 +41,19 @@ export const log: Log = x => {
 };
 
 type GetProp = <O, DefValue>(key: keyof O, def?: DefValue) => (o: O) => O[keyof O] | DefValue | void
-export const getProp: GetProp = (key, def) => o => o[key] || def;
+export const getProp: GetProp = (key, def) => o => key in o ? o[key] : def;
+
+type ExecCommandSync = (command: string) => void
+export const execCommandSync: ExecCommandSync = command => execSync(command, {stdio: 'inherit'})
 
 type ExistsSync = (filepath: string) => boolean
 export const existsSync: ExistsSync = filepath => fs.existsSync(filepath);
 
-type ReadJSONSync = (filepath: string) => Record<string, string>
+type ReadJSONSync = (filepath: string) => Record<string, HashMap>
 export const readJSONSync: ReadJSONSync = filepath => JSON.parse(fs.readFileSync(filepath, 'utf-8'));
+
+type ReadJSON = (filepath: string) => Promise<Record<string, HashMap>>
+export const readJSON: ReadJSON = filepath => promises.readFile(filepath, 'utf-8').then(JSON.parse)
 
 type WriteJSONSync = (filename: any) => (data: any) => void
 export const writeJSONSync: WriteJSONSync = filename => data => fs
@@ -53,6 +62,10 @@ export const writeJSONSync: WriteJSONSync = filename => data => fs
 type DeleteJSONSync = (filename: any) => void
 export const deleteJSONSync: DeleteJSONSync = filename => fs
     .unlinkSync(filename);
+
+type DeleteDirSync = (dirname: any) => void
+export const deleteDirSync: DeleteDirSync = dirname => fs
+    .rmdirSync(dirname, {recursive: true})
 
 export type CreateHashMap = (parentPath: string) => Record<string, string>
 export const createHashMap: CreateHashMap = parentPath => fs.readdirSync(parentPath)
@@ -76,3 +89,22 @@ export const getHashMapDiff: GetHashMapDiff = hashMapControl => hashMapActual =>
         },
         {} as HashMap
     );
+
+type IfThen = <X>(predicate: (x: X) => boolean) => <R>(onTrue: (x: X) => R) => (data: X) => R | X
+export const ifThen: IfThen = predicate => onTrue => data => predicate(data) ? onTrue(data) : data
+
+type IfElse = (predicate: (x: any) => boolean) => (handlers: [onTrue: (x: any) => any, onFalse?: (x: any) => any]) => (data: any) => any
+// eslint-disable-next-line no-nested-ternary
+export const ifElse: IfElse = predicate => ([onTrue, onFalse]) => data => predicate(data)
+    ? onTrue(data)
+    : onFalse ? onFalse(data) : data
+
+type PathJoin2 = (path1: string) => (path2: string) => string
+export const pathJoin2: PathJoin2 = path1 => path2 => path.join(path1, path2)
+
+type IterateStages = (f: (x: any) => any) => (stages: any[]) => any;
+export const iterateStages: IterateStages = (f) => (stages) => Promise.all(
+    stages.map(async (stageGroup: Stage[]) => {
+        for (const stage of stageGroup) await f(stage)
+    })
+);
