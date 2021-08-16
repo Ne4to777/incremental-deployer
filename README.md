@@ -37,11 +37,11 @@ npm i
 Если не указан `command` будет взят `stages`.
 
 ## Запуск
-- `npx run incremental-deployer --init` - проинициализировать кэш (запустить первый раз)
-- `npx run incremental-deployer` - ребилд и деплой (юзаем после каждого сохранения)
-- `npx run incremental-deployer --clear` - удалить все, что насоздавал деплоер (когда что-то пошло не так)
-- `npx run incremental-deployer --config my.config.json <другие флаги>` - если хотите кастомный файл конфига
-- `npx run incremental-deployer --help` - вывести список команд
+- `npx incremental-deployer --init` - проинициализировать кэш (запустить первый раз)
+- `npx incremental-deployer` - ребилд и деплой (юзаем после каждого сохранения)
+- `npx incremental-deployer --clear` - удалить все, что насоздавал деплоер (когда что-то пошло не так)
+- `npx incremental-deployer --config my.config.json <другие флаги>` - если хотите кастомный файл конфига
+- `npx incremental-deployer --help` - вывести список команд
 
 ## Примеры
 1. На примере Маркета и `mandrel`, нам сначала надо сбилдить через `tsc`, потом затранспайлить через `babel` и докинуть стилей от `stylus`.
