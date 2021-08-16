@@ -60,5 +60,5 @@ export default (() => async ({
     })
 
     writeCacheSync(hashMapActual)
-    console.log('"deployment" is done!')
+    console.log('"deploy" is done!')
 }) as Deploy
