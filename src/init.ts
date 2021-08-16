@@ -32,5 +32,5 @@ export default (() => async ({
     mkdirSync(stagedDir)
     writeCacheSync(hashMapActual);
 
-    console.log('Preparation completed! Make changes and run deployer with no flags');
+    console.log('Preparation completed! Run deployer every time you make changes');
 }) as Init;
