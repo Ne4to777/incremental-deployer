@@ -12,9 +12,7 @@
 
 ## Установка
 ```
-git clone https://github.yandex-team.ru/nybble/incremental-deployer.git
-cd incremental-deployer
-npm i
+npm i incremental-deployer
 ```
 
 ## Настройка
