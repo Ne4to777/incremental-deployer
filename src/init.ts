@@ -24,12 +24,13 @@ export default (() => async ({
         })(stages)
     }
 
-    hashMapActual[stagedDir] = createHashMap(stagedDir)
+    if (existsSync(stagedDir)){
+        hashMapActual[stagedDir] = createHashMap(stagedDir)
+        deleteDirSync(stagedDir)
+    }
 
-    writeCacheSync(hashMapActual);
-
-    if (existsSync(stagedDir)) deleteDirSync(stagedDir)
     mkdirSync(stagedDir)
+    writeCacheSync(hashMapActual);
 
     console.log('Preparation completed! Make changes and run deployer with no flags');
 }) as Init;
