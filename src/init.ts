@@ -1,16 +1,18 @@
 import {mkdirSync} from 'fs';
+import path from 'path';
 
 import {createHashMap, deleteDirSync, execCommandSync, existsSync, iterateStages, writeJSONSync} from './utils';
-import {DEFAULT_CACHE_FILE, DEFAULT_DEPLOY_DIR} from './constants';
+import {DEFAULT_CACHE_FILE, DEFAULT_DEPLOY_DIR, DEFAULT_ROOT_DIR} from './constants';
 
 type Init = (args: any) => (config: any) => Promise<any>;
 export default (() => async ({
     command: stageCommand,
     stages = [],
     outDir: stagedDir = DEFAULT_DEPLOY_DIR,
+    rootDir = DEFAULT_ROOT_DIR,
     deployerCacheName = DEFAULT_CACHE_FILE,
 }) => {
-    const writeCacheSync = writeJSONSync(deployerCacheName);
+    const writeCacheSync = writeJSONSync(path.join(rootDir, deployerCacheName));
     const hashMapActual: any = {};
 
     if (stageCommand) {
@@ -20,11 +22,14 @@ export default (() => async ({
             execCommandSync(command);
             if (outDir === stagedDir) return
             hashMapActual[outDir] = createHashMap(outDir)
-            if (diffDir && !existsSync(diffDir)) mkdirSync(diffDir);
+            if (diffDir) {
+                const diffDirPath = path.join(rootDir, diffDir)
+                if (!existsSync(diffDirPath)) mkdirSync(path.join(rootDir, diffDir), {recursive: true});
+            }
         })(stages)
     }
 
-    if (existsSync(stagedDir)){
+    if (existsSync(stagedDir)) {
         hashMapActual[stagedDir] = createHashMap(stagedDir)
         deleteDirSync(stagedDir)
     }

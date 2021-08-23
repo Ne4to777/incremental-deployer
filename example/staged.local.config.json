@@ -1,5 +1,5 @@
 {
-    "localPath": "local",
+    "localPath": "/home/nybble/dev/incremental-deployer/hoho",
     "outDir": "staged",
     "stages": [
         [

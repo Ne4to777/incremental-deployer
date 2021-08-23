@@ -9,7 +9,7 @@ import {
     execCommandSync
 } from './utils';
 import {rsyncLocalExec, rsyncRemoteExec} from './rsyncApi';
-import {DEFAULT_CACHE_FILE, DEFAULT_DEPLOY_DIR} from './constants';
+import {DEFAULT_CACHE_FILE, DEFAULT_DEPLOY_DIR, DEFAULT_ROOT_DIR, DEFAULT_LOCAL_PATH} from './constants';
 
 type Deploy = (args: any) => (config: any) => Promise<any>
 export default (() => async ({
@@ -17,11 +17,13 @@ export default (() => async ({
     command: stageCommand,
     stages = [],
     outDir: stagedDir = DEFAULT_DEPLOY_DIR,
-    localPath = './',
+    rootDir = DEFAULT_ROOT_DIR,
+    localPath = DEFAULT_LOCAL_PATH,
     deployerCacheName = DEFAULT_CACHE_FILE
 }) => {
-    const writeCacheSync = writeJSONSync(deployerCacheName);
-    const hashMapControl = readJSONSync(deployerCacheName);
+    const cachePath = path.join(rootDir, deployerCacheName)
+    const writeCacheSync = writeJSONSync(cachePath);
+    const hashMapControl = readJSONSync(cachePath);
     const hashMapActual: any = {}
 
     if (stageCommand) {
@@ -41,7 +43,7 @@ export default (() => async ({
 
             return rsyncLocalExec({
                 paths: diffPaths.map(p => p.replace(outDirRE, '')),
-                outDir: path.join('..', diffDir, '/'),
+                outDir: path.join(path.resolve(rootDir, diffDir), '/'),
                 cwd: outDir
             })
         })(stages)
