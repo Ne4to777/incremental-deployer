@@ -1,4 +1,4 @@
-import fs, {promises, rmdirSync} from 'fs';
+import fs, {promises} from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import {execSync} from 'child_process';

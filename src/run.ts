@@ -1,4 +1,4 @@
-import {readJSON, pipe, getProp, ifElse, pathJoin2, T, existsSync, writeJSONSync, K} from './utils';
+import {readJSON, pipe, getProp, ifElse, pathJoin2, T, existsSync, writeJSONSync} from './utils';
 import deploy from './deploy';
 import clear from './clear';
 import init from './init';
