@@ -4,5 +4,5 @@
         "host": "market.logrus01ed.yandex.ru",
         "remotePath": "/home/nybble/deployer"
     },
-    "command": "rsync -r src/. staged/"
+    "command": "rsync -r src/. dist/"
 }

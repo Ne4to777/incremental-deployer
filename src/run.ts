@@ -1,4 +1,4 @@
-import {readJSON, pipe, getProp, ifElse, pathJoin2, T} from './utils';
+import {readJSON, pipe, getProp, ifElse, pathJoin2, T, existsSync, writeJSONSync, K} from './utils';
 import deploy from './deploy';
 import clear from './clear';
 import init from './init';
@@ -8,7 +8,16 @@ type GetConfig = (args: any) => Config
 const getConfig: GetConfig = pipe([
     getProp('config', 'deployer.config.json'),
     pathJoin2(process.cwd()),
-    readJSON,
+    ifElse(existsSync)([
+        readJSON,
+        pipe([
+            writeJSONSync,
+            write => pipe([
+                readJSON,
+                write
+            ])('init.config.json')
+        ])
+    ])
 ])
 
 type Run = (args: any) => Promise<any>;

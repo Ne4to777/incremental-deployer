@@ -9,10 +9,13 @@ export type HashMap = Record<string, string>
 
 export type AnyToAnyT = (...xs: any) => any;
 
-type IType = <T>(x: T) => T
+type IType = <Arg>(x: Arg) => Arg
 export const I: IType = x => x;
 
-type TType = <T, K>(x?: T) => (f: (_x?: T) => K) => K
+type KType = <Arg>(x: Arg) => () => Arg
+export const K: KType = x => () => x
+
+type TType = <Arg, Result>(x?: Arg) => (f: (_x?: Arg) => Result) => Result
 export const T: TType = x => f => f(x);
 
 type PipeReducer = <Arg, First, Second>(

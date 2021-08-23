@@ -1,11 +1,5 @@
 {
-    "ssh": {
-        "login": "nybble",
-        "host": "market.logrus01ed.yandex.ru",
-        "port": 22,
-        "remotePath": "/home/nybble/deployer"
-    },
-    "deployerCacheName": ".deployerCache.json",
+    "localPath": "local",
     "outDir": "staged",
     "stages": [
         [
@@ -16,11 +10,6 @@
             },
             {
                 "command": "rsync -r buildDiff/. staged"
-            }
-        ],
-        [
-            {
-                "command": "rsync -r src/css staged/"
             }
         ]
     ]

@@ -1,0 +1,4 @@
+{
+    "localPath": "local",
+    "command": "rsync -r src/. dist/"
+}

@@ -15,6 +15,7 @@ export default (() => async ({
     command: stageCommand,
     stages = [],
     outDir: stagedDir = DEFAULT_DEPLOY_DIR,
+    localPath = './',
     deployerCacheName = DEFAULT_CACHE_FILE
 }) => {
     const writeCacheSync = writeJSONSync(deployerCacheName);
@@ -53,11 +54,22 @@ export default (() => async ({
     console.log('Number of files to be uploaded: ', pathsToDeploy.length);
 
     const outDirRE = new RegExp(`^${stagedDir}/`)
-    await rsyncRemoteExec({
-        ...ssh,
-        outDir: stagedDir,
-        paths: pathsToDeploy.map(p => p.replace(outDirRE, ''))
-    })
+    const paths = pathsToDeploy.map(p => p.replace(outDirRE, ''))
+
+    await (
+        Object.keys(ssh).length
+            ? rsyncRemoteExec({
+                ...ssh,
+                outDir: stagedDir,
+                paths
+            })
+            : rsyncLocalExec({
+                outDir: `../${localPath}`,
+                paths,
+                cwd: stagedDir
+            })
+    )
+
 
     writeCacheSync(hashMapActual)
     console.log('"deploy" is done!')

@@ -49,7 +49,7 @@ export const rsyncRemoteExec: RsyncRemoteExec = ({
 export type RsyncLocalExec = (params: {
     paths: string[],
     outDir: string,
-    cwd: string,
+    cwd?: string,
 }) => Promise<string>
 
 export const rsyncLocalExec: RsyncLocalExec = ({
