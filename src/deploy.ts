@@ -1,3 +1,5 @@
+import path from 'path';
+
 import {
     createHashMap,
     getHashMapDiff,
@@ -39,7 +41,7 @@ export default (() => async ({
 
             return rsyncLocalExec({
                 paths: diffPaths.map(p => p.replace(outDirRE, '')),
-                outDir: `../${diffDir}/`,
+                outDir: path.join('..', diffDir, '/'),
                 cwd: outDir
             })
         })(stages)
@@ -64,7 +66,7 @@ export default (() => async ({
                 paths
             })
             : rsyncLocalExec({
-                outDir: `../${localPath}`,
+                outDir: path.resolve('..', localPath),
                 paths,
                 cwd: stagedDir
             })
