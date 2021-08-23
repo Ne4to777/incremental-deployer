@@ -1,5 +1,4 @@
 import {mkdirSync} from 'fs';
-import path from 'path';
 
 import {createHashMap, deleteDirSync, execCommandSync, existsSync, iterateStages, writeJSONSync} from './utils';
 import {DEFAULT_CACHE_FILE, DEFAULT_DEPLOY_DIR} from './constants';
