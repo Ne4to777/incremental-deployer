@@ -10,7 +10,7 @@
     "start": "npx ts-node src/bin/incremental-deployer.ts",
     "build": "npm run build:ts && npm run build:files",
     "build:ts": "npm run remove:dist && npx tsc --build tsconfig.release.json",
-    "build:files": "cp package.json package-lock.json README.md .npmrc .npmignore dist/",
+    "build:files": "cp package.json package-lock.json src/init.config.json README.md .npmrc .npmignore dist/",
     "example": "cd example && npx ts-node ../src/bin/incremental-deployer.ts",
     "example:init": "npm run example -- -i",
     "example:clear": "npm run example -- --clear",
