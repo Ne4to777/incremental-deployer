@@ -19,7 +19,8 @@
     "prepublish:npm": "npm run lint && npm run build",
     "publish:npm": "npm publish dist/ --registry='http://npm.yandex-team.ru' --public",
     "revert": "rm -rf node_modules && rm -rf package-lock.json",
-    "reinstall": "npm run revert && npm i"
+    "reinstall": "npm run revert && npm i",
+    "show:linked-modules:global": "npm ls -g --depth=0 --link=true"
   },
   "repository": {
     "type": "git",
@@ -30,27 +31,27 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "rsync": "^0.6.1",
-    "ts-node": "^10.2.0",
-    "yargs": "^17.1.0"
+    "ts-node": "^10.4.0",
+    "yargs": "^17.2.1"
   },
   "devDependencies": {
-    "@types/node": "^15.6.0",
-    "@types/yargs": "^17.0.2",
-    "@typescript-eslint/eslint-plugin": "^4.6.1",
-    "@typescript-eslint/parser": "^4.6.1",
-    "@yandex-market/codestyle": "^3.3.1",
+    "@types/node": "^16.11.6",
+    "@types/yargs": "^17.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "@yandex-market/codestyle": "^4.0.0",
     "babel-eslint": "^10.1.0",
-    "concurrently": "^6.2.0",
-    "eslint": "^7.12.1",
+    "concurrently": "^6.3.0",
+    "eslint": "^8.1.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-airbnb-typescript": "^14.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-json": "^3.1.0",
-    "eslint-plugin-market": "^0.21.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.3.2",
-    "typescript": "^4.1.3"
+    "eslint-plugin-market": "^0.21.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.14",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.4"
   }
 }

@@ -4,4 +4,3 @@ export const DEFAULT_ROOT_DIR = './'
 export const DEFAULT_LOCAL_PATH = './'
 export const DEFAULT_PORT = 22
 export const DEFAULT_REMOTE_PATH = '~'
-

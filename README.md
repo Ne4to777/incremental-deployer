@@ -102,5 +102,14 @@ npm i incremental-deployer
 
 Примеры конфигов лежат в `example`.
 
+## Разработка
+```
+npm i --legacy-peer-deps // конфликт пиров в @yandex-market/codestyle
+```
+или
+```
+yarn
+```
+
 ## Тикет с предложениями
 [MARKETFRONTECH-3018](https://st.yandex-team.ru/MARKETFRONTECH-3018)
